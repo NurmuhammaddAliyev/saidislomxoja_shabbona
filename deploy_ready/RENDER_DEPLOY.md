@@ -69,36 +69,51 @@ Bepul limit (750 soat/oy) bitta doim uyg'oq xizmatni qoplaydi.
 
 ## 5. Ma'lumotlarni kiritish
 
-Render'da `taklifnoma-api` → **"Shell"** tabida:
-```bash
-python manage.py createsuperuser
-```
-Keyin `https://<backend>.onrender.com/admin/` ga kirib **To'y taklifnomasi** qo'shing.
+> ⚠️ **Bepul tarifda Render'da "Shell" tabi YO'Q** (SSH ham yo'q). Shuning uchun
+> `createsuperuser` kabi buyruqlarni u yerda qo'lda yozib bo'lmaydi.
+> Buning o'rniga admin foydalanuvchi **build paytida avtomatik yaratiladi**.
 
-⚠️ **`slug` aynan `saidislomxoja_shabbona` bo'lishi shart** — sayt shu nom bilan
-so'rov yuboradi. Boshqacha yozsangiz sayt bo'sh chiqadi.
-(Slug'ni o'zgartirmoqchi bo'lsangiz `wedding_react/src/lib/api.js:2` ni ham yangilang.)
+### 5.1. Admin foydalanuvchi
 
-Admin panel parolini oddiy matnda yozasiz — tizim uni o'zi shifrlaydi.
+Blueprint yaratilayotganda Render sizdan uchta qiymatni so'raydi:
 
-**Yoki lokal bazadagini ko'chirish** (parol va mavjud javoblar ham saqlanadi):
-```bash
-# Lokalda:
-python manage.py dumpdata weddings --indent 2 -o wedding_data.json
-# push qilgach, Render Shell'da:
-python manage.py loaddata wedding_data.json
-```
+| O'zgaruvchi | Nima yozasiz |
+|---|---|
+| `DJANGO_SUPERUSER_USERNAME` | masalan `admin` |
+| `DJANGO_SUPERUSER_EMAIL` | pochtangiz |
+| `DJANGO_SUPERUSER_PASSWORD` | **kuchli parol** — buni eslab qoling |
+
+So'ramasa: `taklifnoma-api` → **Environment** → **"Add Environment Variable"**
+orqali uchalasini qo'shing va **"Manual Deploy"** bosing.
+
+Build log'ida `Admin foydalanuvchi yaratildi: admin` yozuvi chiqadi.
+
+### 5.2. To'y ma'lumotini kiritish (brauzerda)
+
+`https://<backend-manzili>.onrender.com/admin/` → yuqoridagi login/parol bilan
+kiring → **To'y taklifnomalari** → **"Add"**:
+
+- ⚠️ **`slug` aynan `saidislomxoja_shabbona`** — sayt shu nom bilan so'rov
+  yuboradi. Boshqacha yozsangiz sayt bo'sh chiqadi.
+  (O'zgartirmoqchi bo'lsangiz `wedding_react/src/lib/api.js:2` ni ham yangilang.)
+- Kuyov/kelin ismi, to'y sanasi va vaqti
+- **Admin panel paroli** — mehmonlar ro'yxatini ko'rish uchun (oddiy matnda
+  yozasiz, tizim o'zi shifrlaydi). Bu 5.1 dagi paroldan boshqa narsa.
+- Pastda **Dastur** qatorlarini (18:00 — Mehmonlar yig'ilishi va h.k.) qo'shasiz
+
+Saqlagach sayt darhol shu ma'lumot bilan ishlaydi.
 
 ## 6. ⚠️ Baza 30 kundan keyin o'chadi
 
 Render'ning bepul PostgreSQL bazasi yaratilgandan **30 kun** keyin muddati
 tugaydi (keyin 14 kun muhlat), **zaxira nusxa yo'q**. To'y 01.10.2026 bo'lgani
 uchun muddat yetadi, lekin **mehmonlar ro'yxatini yo'qotmaslik uchun**
-to'ydan keyin darhol saqlab oling — Render Shell'da:
-```bash
-python manage.py dumpdata weddings.Guest --indent 2
-```
-Chiqqan matnni nusxalab, kompyuteringizga faylga saqlang.
+to'ydan keyin darhol saqlab oling. Bepul tarifda Shell yo'q, shuning uchun
+brauzer orqali:
+
+- `https://<backend>.onrender.com/admin/weddings/guest/` — barcha javoblar
+  jadvali. Nusxalab olib, Excel/Word'ga saqlang yoki skrinshot qiling.
+- Yoki saytdagi 🔒 tugmasi orqali admin panelni ochib, jadvalni saqlang.
 
 Uzoq muddat kerak bo'lsa: muddati tugamaydigan bepul Postgres (Neon, Supabase)
 olib, uning `DATABASE_URL` ini Render'ning "Environment" bo'limiga qo'ying —

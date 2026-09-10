@@ -35,6 +35,15 @@ services:
         fromDatabase:
           name: taklifnoma-db
           property: connectionString
+      # Bepul tarifda Shell yo'q, shuning uchun admin foydalanuvchi build
+      # paytida shu qiymatlardan yaratiladi. sync: false -> Render Blueprint
+      # yaratilayotganda qiymatni sizdan so'raydi (repo'da saqlanmaydi).
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
 
   # ---------- React sayt (static) ----------
   # Static site hech qachon "uxlamaydi" — mehmon uchun sahifa darhol ochiladi.
