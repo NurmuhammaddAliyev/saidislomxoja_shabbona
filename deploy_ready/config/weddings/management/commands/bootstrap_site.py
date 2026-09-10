@@ -13,11 +13,11 @@ from django.core.management import BaseCommand, call_command
 
 from weddings.models import Wedding
 
-# VAQTINCHALIK: True bo'lsa har deployda admin'ga YANGI tasodifiy parol
-# beriladi va deploy log'iga yoziladi. Admin'ga kirib, parolni o'zingiz
-# o'zgartirgach buni False qiling — aks holda keyingi deploy uni yana
-# almashtiradi.
-RESET_ADMIN_PASSWORD_ON_DEPLOY = True
+# True bo'lsa har deployda admin'ga YANGI tasodifiy parol beriladi va deploy
+# log'iga yoziladi — parol unutilganda uni tiklash uchun vaqtincha yoqiladi.
+# False bo'lsa mavjud admin'ning paroliga tegilmaydi (admin umuman bo'lmasa
+# baribir yaratiladi va paroli log'ga yoziladi).
+RESET_ADMIN_PASSWORD_ON_DEPLOY = False
 
 WEDDING_SLUG = "saidislomxoja_shabbona"
 FIXTURE = Path(__file__).resolve().parents[2] / "fixtures" / "initial_wedding.json"
