@@ -7,34 +7,41 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
 
-# Admin foydalanuvchini yaratish.
-# Render'ning BEPUL tarifida Shell/SSH yo'q, shuning uchun createsuperuser'ni
-# qo'lda ishga tushirib bo'lmaydi — u shu yerda, muhit o'zgaruvchilari asosida
-# yaratiladi. Ikkinchi deployda "allaqachon mavjud" xatosi build'ni to'xtatmasligi
-# uchun natija e'tiborsiz qoldiriladi.
-if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
-  python manage.py createsuperuser --noinput 2>/dev/null \
-    && echo "Admin foydalanuvchi yaratildi: $DJANGO_SUPERUSER_USERNAME" \
-    || echo "Admin foydalanuvchi allaqachon mavjud — o'tkazib yuborildi"
-fi
-
-# Admin parolini tiklash.
-# Render'ning bepul tarifida Shell yo'q, shuning uchun parol unutilsa uni
-# tiklashning yagona yo'li shu. Render panelida DJANGO_ADMIN_RESET_PASSWORD
-# o'zgaruvchisini qo'shasiz, deploy tugagach uni O'CHIRIB TASHLANG — aks holda
+# Admin foydalanuvchi: yaratish yoki parolini yangilash.
+#
+# Render'ning BEPUL tarifida Shell/SSH yo'q, shuning uchun `createsuperuser` ni
+# qo'lda ishga tushirib bo'lmaydi — hammasi shu yerda bajariladi.
+#
+# DJANGO_ADMIN_PASSWORD berilsa:
+#   - bunday foydalanuvchi bo'lmasa  -> yaratiladi
+#   - bo'lsa                         -> paroli yangilanadi
+# Foydalanuvchi nomi DJANGO_ADMIN_USERNAME dan olinadi (berilmasa: admin).
+#
+# Kirib olgach, bu o'zgaruvchini Render'dan O'CHIRIB TASHLANG — aks holda
 # parol har deployda o'sha qiymatga qaytaveradi.
-if [ -n "$DJANGO_ADMIN_RESET_PASSWORD" ] && [ -n "$DJANGO_SUPERUSER_USERNAME" ]; then
+if [ -n "$DJANGO_ADMIN_PASSWORD" ]; then
   python manage.py shell -c "
 import os
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-user = User.objects.filter(username=os.environ['DJANGO_SUPERUSER_USERNAME']).first()
-if user:
-    user.set_password(os.environ['DJANGO_ADMIN_RESET_PASSWORD'])
-    user.save()
-    print('Admin paroli yangilandi:', user.username)
-else:
-    print('Bunday foydalanuvchi topilmadi — parol tiklanmadi')
+username = os.environ.get('DJANGO_ADMIN_USERNAME') or 'admin'
+email = os.environ.get('DJANGO_ADMIN_EMAIL') or ''
+password = os.environ['DJANGO_ADMIN_PASSWORD']
+
+user, created = User.objects.get_or_create(
+    username=username,
+    defaults={'email': email, 'is_staff': True, 'is_superuser': True},
+)
+user.is_staff = True
+user.is_superuser = True
+user.set_password(password)
+user.save()
+print('Admin YARATILDI:' if created else 'Admin paroli YANGILANDI:', username)
 "
+fi
+
+# Eski nomlar bilan ham ishlashi uchun (oldingi sozlamalardan qolgan bo'lsa).
+if [ -z "$DJANGO_ADMIN_PASSWORD" ] && [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
+  python manage.py createsuperuser --noinput 2>/dev/null     && echo "Admin foydalanuvchi yaratildi: $DJANGO_SUPERUSER_USERNAME"     || echo "Admin foydalanuvchi allaqachon mavjud — o'tkazib yuborildi"
 fi
