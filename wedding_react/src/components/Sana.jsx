@@ -6,6 +6,10 @@ import FloralFrame from "./FloralFrame";
 
 const DOWS = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
 
+// To'y Toshkentda bo'ladi: vaqt mehmon telefonining vaqt zonasida emas,
+// har doim Toshkent vaqtida ko'rsatilishi kerak.
+const EVENT_TIME_ZONE = "Asia/Tashkent";
+
 function CountUnit({ value, label }) {
   return (
     <div className="cell">
@@ -74,7 +78,12 @@ export default function Sana({ wedding, lang }) {
       ).padStart(2, "0")} ${dateObj.getFullYear()}`
     : "";
   const timeStr = dateObj
-    ? dateObj.toLocaleTimeString("uz-UZ", { hour: "2-digit", minute: "2-digit" })
+    ? dateObj.toLocaleTimeString("uz-UZ", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: EVENT_TIME_ZONE,
+      })
     : "";
 
   return (

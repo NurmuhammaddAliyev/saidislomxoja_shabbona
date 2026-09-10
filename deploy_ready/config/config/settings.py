@@ -96,7 +96,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+# To'y Toshkentda: admin'da kiritilgan vaqt Toshkent vaqti deb tushuniladi.
+# UTC bo'lganida "17:00" UTC deb saqlanib, O'zbekistondagi mehmonga 22:00 ko'rinardi.
+TIME_ZONE = 'Asia/Tashkent'
 USE_I18N = True
 USE_TZ = True
 
