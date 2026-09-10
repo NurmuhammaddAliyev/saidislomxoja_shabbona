@@ -1,0 +1,5 @@
+# Windows'da tahrirlansa ham, Linux'da (Render) ishlaydigan fayllar
+# doim LF qator oxiri bilan saqlanadi — aks holda bash "\r: command not
+# found" xatosini beradi.
+* text=auto
+*.sh text eol=lf
