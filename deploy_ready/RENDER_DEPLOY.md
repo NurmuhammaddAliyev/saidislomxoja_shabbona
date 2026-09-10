@@ -11,9 +11,9 @@ taklifnoma/
 Nima yaratiladi (hammasi **bepul**):
 | Xizmat | Nomi | Vazifasi |
 |---|---|---|
-| Static Site | `taklifnoma` | Mehmonlar ochadigan sayt. **Hech qachon uxlamaydi** |
-| Web Service | `taklifnoma-api` | Django API. 15 daqiqa harakatsiz tursa uxlaydi (4-bosqichga qarang) |
-| PostgreSQL | `taklifnoma-db` | Baza. ⚠️ **30 kundan keyin o'chadi** (6-bosqichga qarang) |
+| Static Site | `saidislomxoja-shabbona` | Mehmonlar ochadigan sayt. **Hech qachon uxlamaydi** |
+| Web Service | `saidislomxoja-shabbona-api` | Django API. 15 daqiqa harakatsiz tursa uxlaydi (4-bosqichga qarang) |
+| PostgreSQL | `saidislomxoja-shabbona-db` | Baza. ⚠️ **30 kundan keyin o'chadi** (6-bosqichga qarang) |
 
 Sayt `/api/...` so'rovlarini o'z domenidan yuboradi, Render esa ularni backendga
 uzatadi — shuning uchun CORS sozlash umuman kerak emas.
@@ -35,26 +35,48 @@ git push -u origin main
 
 ## 2. Blueprint orqali yaratish
 
+> ⚠️ **Avval tekshiring:** bepul tarifda akkauntda **faqat bitta** bepul
+> PostgreSQL bo'lishi mumkin. Boshqa loyihadan qolgani bo'lsa, Blueprint
+> quyidagi xato bilan to'xtaydi:
+> ```
+> cannot have more than one active free tier database
+> ```
+> Bunday bo'lsa: Render Dashboard → eski bazani oching → **Settings** →
+> eng pastda **"Delete Database"** → nomini yozib tasdiqlang. So'ng Blueprint'ni
+> qaytadan ishga tushiring.
+
 1. [render.com](https://render.com) → GitHub bilan kiring
 2. **"New +"** → **"Blueprint"** → repo'ni tanlang
 3. Render `render.yaml` ni o'qib, uchala narsani o'zi yaratadi → **"Apply"**
 
 Birinchi build 5-10 daqiqa oladi.
 
-## 3. ⚠️ Backend manzilini tekshirish (eng ko'p xato shu yerda)
+## 3. ⚠️ Backend manzilini tekshirish
 
-`taklifnoma-api` nomi band bo'lsa Render manzilga qo'shimcha qo'shadi
-(masalan `taklifnoma-api-x7k2.onrender.com`). Bunday bo'lsa:
+Xizmat nomlari `onrender.com` da **global noyob** bo'lishi kerak. Nom band
+bo'lsa Render tasodifiy qo'shimcha qo'shadi, masalan:
+`saidislomxoja-shabbona-api-3a3h.onrender.com`.
 
-1. Render'da `taklifnoma-api` xizmatini ochib, haqiqiy manzilini nusxalang
-2. `render.yaml` dagi qatorni shunga moslang:
-   ```yaml
-   destination: https://<haqiqiy-manzil>.onrender.com/api/*
-   ```
-3. `git commit` + `git push` → static site qayta build bo'ladi
+Render'da `saidislomxoja-shabbona-api` xizmatini oching va yuqoridagi manzilni
+qo'shimchasiz ekaniga ishonch hosil qiling.
 
-**Tekshirish:** `https://<sayt>.onrender.com/api/weddings/saidislomxoja_shabbona/`
-ochilganda JSON chiqishi kerak. Chiqmasa — rewrite manzili noto'g'ri.
+**Agar qo'shimcha chiqqan bo'lsa** — ikki yo'ldan biri:
+
+**A) `render.yaml` ni tuzatish** (tavsiya):
+```yaml
+destination: https://<haqiqiy-manzil>.onrender.com/api/*
+```
+so'ng `git commit` + `git push` → static site qayta build bo'ladi.
+
+**B) Muhit o'zgaruvchisi orqali** (push qilmasdan):
+- `saidislomxoja-shabbona` (static site) → Environment → `VITE_API_BASE` =
+  backend manzili (`https://` ni yozmasangiz ham bo'ladi)
+- `saidislomxoja-shabbona-api` → Environment → `CORS_ALLOWED_ORIGINS` =
+  sayt manzili
+- ikkalasini ham qayta deploy qiling
+
+**Tekshirish:** `https://<sayt-manzili>.onrender.com/api/weddings/saidislomxoja_shabbona/`
+ochilganda JSON chiqishi kerak. Chiqmasa — manzil noto'g'ri.
 
 ## 4. Saytni uyquda qolmasligi uchun (ping)
 
@@ -83,7 +105,7 @@ Blueprint yaratilayotganda Render sizdan uchta qiymatni so'raydi:
 | `DJANGO_SUPERUSER_EMAIL` | pochtangiz |
 | `DJANGO_SUPERUSER_PASSWORD` | **kuchli parol** — buni eslab qoling |
 
-So'ramasa: `taklifnoma-api` → **Environment** → **"Add Environment Variable"**
+So'ramasa: `saidislomxoja-shabbona-api` → **Environment** → **"Add Environment Variable"**
 orqali uchalasini qo'shing va **"Manual Deploy"** bosing.
 
 Build log'ida `Admin foydalanuvchi yaratildi: admin` yozuvi chiqadi.

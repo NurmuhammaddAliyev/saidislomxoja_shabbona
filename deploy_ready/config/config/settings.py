@@ -128,13 +128,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # preflight (OPTIONS) bosqichidayoq so'rovni bloklaydi va panel bo'sh qoladi.
 CORS_ALLOW_HEADERS = list(default_headers) + ["x-dashboard-token"]
 
+def _normalize_origin(value):
+    """'sayt.onrender.com' kabi sxemasiz manzilni ham qabul qiladi.
+
+    CORS qat'iy: manzil aynan 'https://host' ko'rinishida bo'lishi shart,
+    aks holda brauzer so'rovni bloklaydi va sababi ko'rinmaydi.
+    """
+    value = value.strip().rstrip('/')
+    if not value:
+        return None
+    if not value.startswith(('http://', 'https://')):
+        value = 'https://' + value
+    return value
+
+
 CORS_ALLOWED_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get(
-        'CORS_ALLOWED_ORIGINS',
-        'http://localhost:5173,http://127.0.0.1:5173'
-    ).split(',')
-    if origin.strip()
+    origin
+    for origin in (
+        _normalize_origin(v)
+        for v in os.environ.get(
+            'CORS_ALLOWED_ORIGINS',
+            'http://localhost:5173,http://127.0.0.1:5173'
+        ).split(',')
+    )
+    if origin
 ]
 
 

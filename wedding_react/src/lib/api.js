@@ -2,7 +2,18 @@
 // "/api/* -> backend" rewrite qoidasi so'rovni backendga uzatadi.
 // Shu sabab frontend va backend bir xil domenda ko'rinadi va CORS kerak emas.
 // Zaxira variant: VITE_API_BASE muhit o'zgaruvchisiga to'liq manzil berish.
-const API_BASE = import.meta.env.VITE_API_BASE || "/api";
+function resolveApiBase() {
+  const raw = import.meta.env.VITE_API_BASE;
+  if (!raw) return "/api"; // odatiy holat: bir domen (Render rewrite)
+  // Zaxira holat: to'liq manzil berilgan. Foydalanuvchi "https://" yoki "/api"
+  // qismini yozishni unutsa ham ishlashi uchun to'ldirib qo'yamiz.
+  let base = raw.trim().replace(/\/+$/, "");
+  if (!/^https?:\/\//.test(base)) base = "https://" + base;
+  if (!base.endsWith("/api")) base += "/api";
+  return base;
+}
+
+const API_BASE = resolveApiBase();
 export const WEDDING_SLUG = "saidislomxoja_shabbona"; // o'z loyihangdagi slug bilan almashtir
 
 export async function fetchWedding() {

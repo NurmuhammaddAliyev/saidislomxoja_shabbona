@@ -1,12 +1,12 @@
 # Render Blueprint — "New +" -> "Blueprint" orqali ikkala xizmat va baza
 # bir vaqtda yaratiladi. Hammasi bepul (free) rejada.
 #
-# MUHIM: quyidagi "taklifnoma-api" nomi band bo'lsa, Render manzilga qo'shimcha
-# qo'shadi (masalan taklifnoma-api-x7k2.onrender.com). Deploydan keyin backend
+# MUHIM: quyidagi "saidislomxoja-shabbona-api" nomi band bo'lsa, Render manzilga qo'shimcha
+# qo'shadi (masalan saidislomxoja-shabbona-api-x7k2.onrender.com). Deploydan keyin backend
 # manzilini tekshirib, pastdagi rewrite destination'ni shunga moslang.
 
 databases:
-  - name: taklifnoma-db
+  - name: saidislomxoja-shabbona-db
     plan: free
     databaseName: taklifnoma
     user: taklifnoma
@@ -14,7 +14,7 @@ databases:
 services:
   # ---------- Django API ----------
   - type: web
-    name: taklifnoma-api
+    name: saidislomxoja-shabbona-api
     runtime: python
     plan: free
     rootDir: deploy_ready/config
@@ -33,7 +33,7 @@ services:
         value: ".onrender.com"
       - key: DATABASE_URL
         fromDatabase:
-          name: taklifnoma-db
+          name: saidislomxoja-shabbona-db
           property: connectionString
       # Bepul tarifda Shell yo'q, shuning uchun admin foydalanuvchi build
       # paytida shu qiymatlardan yaratiladi. sync: false -> Render Blueprint
@@ -48,7 +48,7 @@ services:
   # ---------- React sayt (static) ----------
   # Static site hech qachon "uxlamaydi" — mehmon uchun sahifa darhol ochiladi.
   - type: web
-    name: taklifnoma
+    name: saidislomxoja-shabbona
     runtime: static
     rootDir: wedding_react
     buildCommand: npm ci && npm run build
@@ -58,7 +58,7 @@ services:
       # ko'rinadi va CORS umuman kerak bo'lmaydi.
       - type: rewrite
         source: /api/*
-        destination: https://taklifnoma-api.onrender.com/api/*
+        destination: https://saidislomxoja-shabbona-api.onrender.com/api/*
       # SPA: qolgan barcha manzillar index.html ga
       - type: rewrite
         source: /*
