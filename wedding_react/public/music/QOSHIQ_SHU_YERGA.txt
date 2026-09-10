@@ -1,0 +1,24 @@
+SHU YERGA QO'SHIQ FAYLINI QO'Y:
+
+Fayl nomi har doim shunday bo'lishi kerak:
+  wedding_react/public/music/song.mp3
+
+Qaysi qo'shiqni tanlasang ham (masalan Lady Gaga & Bruno Mars —
+"Die With A Smile"), faylni shu nom bilan saqlaysan. Nomi o'zgarmas —
+faqat fayl mazmuni (qaysi qo'shiq ekani) almashadi, kod hech qachon
+qayta yozilmaydi.
+
+MUHIM (mualliflik huquqi): tijorat qo'shiqlarini (masalan taniqli
+ijrochilarning asarlarini) men (Claude) yuklab bera olmayman va fayl
+sifatida taqdim eta olmayman. O'zing qonuniy yo'l bilan (sotib olingan
+nusxa yoki litsenziyalangan musiqa xizmati orqali) audio faylni olib,
+shu joyga qo'yishing kerak.
+
+Fayl qo'yilgach, loyihani qayta ishga tushir (npm run dev) — konvert
+muhriga bosilganda musiqa avtomatik ijro bo'ladi, yuqori o'ng
+burchakdagi tugma esa uni to'xtatish/davom ettirish uchun ishlaydi.
+
+Agar musiqa hali ham ishlamasa, tekshir:
+1. Fayl nomi ANIQ "song.mp3" ekanligini (katta-kichik harflar ham mos)
+2. Fayl shu papkada ekanligini: wedding_react/public/music/song.mp3
+3. Brauzer konsolida (F12 -> Console) qizil xato borligini

@@ -1,0 +1,17 @@
+SHU YERGA ORQA FON RASMLARINI QO'Y:
+
+1. sana-bg.jpg — "Sana" (countdown) bo'limi orqasiga
+2. dastur-bg.jpg — "Dastur" (kun tartibi) bo'limi orqasiga
+
+QAYERDAN OLISH MUMKIN (100% bepul, litsenziyasiz ishlatsa bo'ladi):
+- https://www.pexels.com  (qidiruv: "wedding flowers", "wedding rings", "wedding table")
+- https://unsplash.com     (qidiruv: xuddi shunday)
+- https://pixabay.com
+
+TAVSIYA: odam yuzi ko'rinmaydigan suratlarni tanla (gullar, uzuklar,
+stol bezaklari, shamlar kabi) — bu ko'proq "universal" va chiroyli chiqadi.
+
+Fayllarni yuklab, ustiga bosib nusxalab, nomini aynan
+"sana-bg.jpg" va "dastur-bg.jpg" deb qo'ysang — kod avtomatik ishlatadi.
+Agar rasm hali qo'yilmagan bo'lsa, sahifa oddiy fon rangi bilan chiqadi
+(hech narsa buzilmaydi).
