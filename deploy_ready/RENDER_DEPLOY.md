@@ -13,7 +13,7 @@ Nima yaratiladi (hammasi **bepul**):
 |---|---|---|
 | Static Site | `saidislomxoja-shabbona` | Mehmonlar ochadigan sayt. **Hech qachon uxlamaydi** |
 | Web Service | `saidislomxoja-shabbona-api` | Django API. 15 daqiqa harakatsiz tursa uxlaydi (4-bosqichga qarang) |
-| PostgreSQL | `saidislomxoja-shabbona-db` | Baza. ⚠️ **30 kundan keyin o'chadi** (6-bosqichga qarang) |
+| PostgreSQL | `taklifnoma-db` | Baza. ⚠️ **30 kundan keyin o'chadi** (6-bosqichga qarang) |
 
 Sayt `/api/...` so'rovlarini o'z domenidan yuboradi, Render esa ularni backendga
 uzatadi — shuning uchun CORS sozlash umuman kerak emas.
@@ -35,15 +35,19 @@ git push -u origin main
 
 ## 2. Blueprint orqali yaratish
 
-> ⚠️ **Avval tekshiring:** bepul tarifda akkauntda **faqat bitta** bepul
-> PostgreSQL bo'lishi mumkin. Boshqa loyihadan qolgani bo'lsa, Blueprint
-> quyidagi xato bilan to'xtaydi:
+> ⚠️ **Baza nomini hech qachon o'zgartirmang.** Bepul tarifda akkauntda faqat
+> bitta bepul PostgreSQL bo'lishi mumkin. `render.yaml` dagi baza nomi o'zgarsa,
+> Render eskisini saqlab qolib YANGI baza yaratmoqchi bo'ladi va butun deploy
+> shu xato bilan to'xtaydi:
 > ```
 > cannot have more than one active free tier database
+> (canceled: another action failed)
 > ```
-> Bunday bo'lsa: Render Dashboard → eski bazani oching → **Settings** →
-> eng pastda **"Delete Database"** → nomini yozib tasdiqlang. So'ng Blueprint'ni
-> qaytadan ishga tushiring.
+> Bu holatda bazani **o'chirmang** — `render.yaml` dagi nomni mavjud bazaning
+> nomiga qaytarish kifoya, shunda Blueprint uni qayta ishlatadi.
+>
+> Haqiqatan boshqa loyihadan qolgan ortiqcha baza bo'lsa: uni o'chirishdan
+> oldin Blueprint'dan chiqaring, aks holda Render uni qaytadan yaratadi.
 
 1. [render.com](https://render.com) → GitHub bilan kiring
 2. **"New +"** → **"Blueprint"** → repo'ni tanlang

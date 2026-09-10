@@ -6,7 +6,11 @@
 # manzilini tekshirib, pastdagi rewrite destination'ni shunga moslang.
 
 databases:
-  - name: saidislomxoja-shabbona-db
+  # DIQQAT: bu nomni O'ZGARTIRMANG. Bepul tarifda akkauntda faqat bitta bepul
+  # baza bo'lishi mumkin. Nom o'zgarsa Render eskisini saqlab, YANGI baza
+  # yaratmoqchi bo'ladi va "cannot have more than one active free tier
+  # database" xatosi bilan butun deploy to'xtaydi.
+  - name: taklifnoma-db
     plan: free
     databaseName: taklifnoma
     user: taklifnoma
@@ -33,7 +37,7 @@ services:
         value: ".onrender.com"
       - key: DATABASE_URL
         fromDatabase:
-          name: saidislomxoja-shabbona-db
+          name: taklifnoma-db
           property: connectionString
       # Bepul tarifda Shell yo'q, shuning uchun admin foydalanuvchi build
       # paytida shu qiymatlardan yaratiladi. sync: false -> Render Blueprint
